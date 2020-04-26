@@ -51,9 +51,6 @@ public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFra
     public View footView;
     public Context mContext;
     public StatusLayoutManager statusLayoutManager;
-    public int finishLoadMoreDelay=100;
-    public int finishRefreshDelay=250;
-    public int finishEdLoadMoreShowDelay=0;
     public MyCallBackInterface<V> mainHttpCallBack;
 
 

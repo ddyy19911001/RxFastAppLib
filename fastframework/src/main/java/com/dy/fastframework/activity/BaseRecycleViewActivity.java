@@ -46,9 +46,6 @@ public abstract class BaseRecycleViewActivity<T,V> extends SuperBaseActivity imp
     public View headView;
     public View footView;
     public StatusLayoutManager statusLayoutManager;
-    public int finishLoadMoreDelay=100;
-    public int finishRefreshDelay=250;
-    public int finishEdLoadMoreShowDelay=0;
     public MyCallBackInterface<V> mainHttpCallBack;
 
     /**
