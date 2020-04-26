@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dy.fastframework.activity.BaseRecycleViewActivity;
 import com.dy.fastframework.fragment.BaseRecycleViewFragment;
 import com.dy.fastframework.picture.PictureSelectUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.vise.xsnow.base.MyCallBackInterface;
 import com.vise.xsnow.base.MyCallBackListener;
 import com.vise.xsnow.http.ViseHttp;
@@ -20,7 +21,6 @@ import java.util.List;
 import yin.deng.normalutils.utils.DataHolder;
 import yin.deng.normalutils.utils.LogUtils;
 import yin.deng.normalutils.utils.NoDoubleClickListener;
-import yin.deng.refreshlibrary.refresh.SmartRefreshLayout;
 
 public class MyTestFragment extends BaseRecycleViewFragment<String,SplanshInfo> {
     private SmartRefreshLayout smRf;

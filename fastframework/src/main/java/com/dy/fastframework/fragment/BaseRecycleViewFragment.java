@@ -11,6 +11,11 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dy.fastframework.activity.BaseRecycleViewActivity;
 import com.dy.fastframework.util.ActivityLoadUtil;
 import com.dy.fastframework.util.ImageAutoLoadScrollListener;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.help.MyQuckAdapter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.base.MyCallBackInterface;
 import com.vise.xsnow.base.MyCallBackInterface;
 import com.vise.xsnow.base.MyCallBackInterface;
@@ -21,11 +26,6 @@ import java.util.List;
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 import yin.deng.normalutils.utils.LogUtils;
-import yin.deng.refreshlibrary.refresh.SmartRefreshLayout;
-import yin.deng.refreshlibrary.refresh.api.RefreshLayout;
-import yin.deng.refreshlibrary.refresh.help.MyQuckAdapter;
-import yin.deng.refreshlibrary.refresh.listener.OnLoadmoreListener;
-import yin.deng.refreshlibrary.refresh.listener.OnRefreshListener;
 import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
 
 /**
@@ -35,7 +35,7 @@ import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
  *  注意：init里面要初始化initRecycle()/initAdapter()-----最后在需要的地方调用loadDataAtFirst()请求数据
  */
 public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFragment implements OnRefreshListener,
-        OnLoadmoreListener, OnStatusChildClickListener {
+        OnLoadMoreListener, OnStatusChildClickListener {
     public List<T> mDatas=new ArrayList<>();
     public MyQuckAdapter<T> mAdapter;
     public RecyclerView mRecycleView;
@@ -200,7 +200,7 @@ public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFra
     public void setRefreshLoadMoreListener() {
         if(refreshLayout!=null){
             refreshLayout.setOnRefreshListener(this);
-            refreshLayout.setOnLoadmoreListener(this);
+            refreshLayout.setOnLoadMoreListener(this);
             setLoadingLayout(refreshLayout);
         }
         onInitOver();
@@ -274,7 +274,7 @@ public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFra
     }
 
     @Override
-    public void onLoadmore(RefreshLayout refreshlayout) {
+    public void onLoadMore(RefreshLayout refreshlayout) {
         page++;
         FRefresh=false;
         //当出现加载更多的时候回调
@@ -325,13 +325,12 @@ public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFra
         if(FRefresh){
             //刷新完成
             if(refreshLayout!=null){
-                refreshLayout.finishRefresh(finishRefreshDelay,true);
+                refreshLayout.finishRefresh(true);
             }
             mDatas.clear();
         }else{
             if(list.size()==0){
-                refreshLayout.setLoadmoreFinished(true);
-                refreshLayout.finishLoadmore(finishEdLoadMoreShowDelay,true);
+                refreshLayout.finishLoadMoreWithNoMoreData();
                 page--;
                 if(page<=defaultPage){
                     page=defaultPage;
@@ -339,7 +338,7 @@ public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFra
             }else {
                 //加载更多完成
                 if (refreshLayout != null) {
-                    refreshLayout.finishLoadmore(finishLoadMoreDelay, true);
+                    refreshLayout.finishLoadMore();
                 }
             }
         }
