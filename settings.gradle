@@ -1,2 +1,2 @@
 include ':app', ':fastframework'
-rootProject.name='FastFramWork'
+rootProject.name='RxFastFramWork'

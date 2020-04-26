@@ -3,6 +3,7 @@ package com.dy.fastdemo;
 public class SplanshInfo {
 
     /**
+     *
      * code : 200
      * msg : success
      * time : 1581586712
