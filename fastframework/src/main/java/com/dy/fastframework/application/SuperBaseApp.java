@@ -56,6 +56,9 @@ public abstract class SuperBaseApp extends Application {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
                 @Override
                 public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                    layout.setEnableOverScrollBounce(false);
+                    layout.setEnableScrollContentWhenLoaded(true);//是否在加载完成时滚动列表显示新的内容
+                    layout.setEnableOverScrollDrag(true);//是否启用越界拖动（仿苹果效果）1.0.4
                     layout.setPrimaryColorsId(R.color.normal_bg, R.color.normal_4a);//全局设置主题颜色
                     MyHeaderView head = new MyHeaderView(context);
                     return head;//指定为经典Header，默认是 贝塞尔雷达Header

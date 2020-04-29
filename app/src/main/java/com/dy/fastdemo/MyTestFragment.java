@@ -1,6 +1,7 @@
 package com.dy.fastdemo;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,6 @@ import com.ypx.imagepicker.data.OnImagePickCompleteListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import yin.deng.normalutils.utils.DataHolder;
 import yin.deng.normalutils.utils.LogUtils;
 import yin.deng.normalutils.utils.NoDoubleClickListener;
 
@@ -36,8 +36,15 @@ public class MyTestFragment extends BaseRecycleViewFragment<String,SplanshInfo> 
         initVerticalRecycleView(rcView, smRf);
         initAdapter(R.layout.test_item, new BaseRecycleViewActivity.OnConvertDataLayoutListener<String>() {
             @Override
-            public void onConvert(BaseViewHolder holder, String item) {
+            public void onConvert(BaseViewHolder holder, final String item) {
                 holder.setText(R.id.tv, item);
+                TextView tv = holder.getView(R.id.tv);
+                tv.setOnClickListener(new NoDoubleClickListener() {
+                    @Override
+                    protected void onNoDoubleClick(View v) {
+                        showTs("点击了"+item);
+                    }
+                });
             }
         });
         rcView.setOnClickListener(new NoDoubleClickListener() {
@@ -62,7 +69,6 @@ public class MyTestFragment extends BaseRecycleViewFragment<String,SplanshInfo> 
     public void bindViewWithId(View view) {
         smRf = (SmartRefreshLayout)view. findViewById(R.id.smRf);
         rcView = (RecyclerView) view.findViewById(R.id.rcView);
-
     }
 
     @Override
@@ -75,6 +81,22 @@ public class MyTestFragment extends BaseRecycleViewFragment<String,SplanshInfo> 
     @Override
     public List<String> convertInfoDataToList(SplanshInfo obj) {
         List<String> strings=new ArrayList<>();
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
+        strings.add("我是aaaa");
+        strings.add("sdhjahjdf");
         strings.add("我是aaaa");
         strings.add("sdhjahjdf");
         return strings;
