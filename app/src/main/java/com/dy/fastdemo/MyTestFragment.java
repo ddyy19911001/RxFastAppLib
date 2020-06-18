@@ -1,6 +1,7 @@
 package com.dy.fastdemo;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dy.fastframework.activity.BaseRecycleViewActivity;
 import com.dy.fastframework.fragment.BaseRecycleViewFragment;
 import com.dy.fastframework.picture.PictureSelectUtil;
+import com.dy.fastframework.view.RippleLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.vise.xsnow.base.MyCallBackInterface;
 import com.vise.xsnow.base.MyCallBackListener;
@@ -38,11 +40,12 @@ public class MyTestFragment extends BaseRecycleViewFragment<String,SplanshInfo> 
             @Override
             public void onConvert(BaseViewHolder holder, final String item) {
                 holder.setText(R.id.tv, item);
-                TextView tv = holder.getView(R.id.tv);
+                final TextView tv = holder.getView(R.id.tv);
                 tv.setOnClickListener(new NoDoubleClickListener() {
                     @Override
                     protected void onNoDoubleClick(View v) {
                         showTs("点击了"+item);
+//                        ClickUtils.setClickAnimation(tv);
                     }
                 });
             }
