@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 
-import com.dy.fastframework.BuildConfig;
 import com.dy.fastframework.R;
 import com.dy.fastframework.erro.CrashHandler;
+import com.dy.fastframework.util.MyImageLoadUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -17,7 +17,6 @@ import com.scwang.smartrefresh.layout.viewimpl.MyFooterView;
 import com.scwang.smartrefresh.layout.viewimpl.MyHeaderView;
 import com.vise.xsnow.http.ViseHttp;
 
-import yin.deng.normalutils.utils.ImageLoadUtil;
 import yin.deng.normalutils.utils.SharedPreferenceUtil;
 
 
@@ -29,10 +28,8 @@ public abstract class SuperBaseApp extends Application {
         super.onCreate();
         CrashHandler.getInstance().init(this);
         app=this;
-        initDebugMode(isEnableDebugLog());
-        if(isEnableDebugLog()){
-            EventReceiver.getInstance().register();
-        }
+        //默认开启打印
+        initDebugMode(!closeDebugLog());
         initImgLoadSetting();
         initRefreshHeadAndFooter();
         //初始化请求工具
@@ -81,7 +78,8 @@ public abstract class SuperBaseApp extends Application {
      * 图片加载器初始化
      */
     protected  void initImgLoadSetting(){
-        ImageLoadUtil.initOptions(this, R.drawable.ic_default_erro_img,R.drawable.ic_default_erro_img);
+        MyImageLoadUtil.mPlaceHolder= R.drawable.ic_default_erro_img;
+        MyImageLoadUtil.mErroHolder= R.drawable.ic_default_erro_img;
     }
 
 
@@ -91,10 +89,10 @@ public abstract class SuperBaseApp extends Application {
 
 
     /**
-     * 是否开启debug的Log,release自动关闭log
+     * 是否不开启debug的Log,release自动关闭log
      * @return
      */
-    public abstract boolean isEnableDebugLog();
+    public abstract boolean closeDebugLog();
 
     /**
      * 设置日志打印，在正式环境中不显示

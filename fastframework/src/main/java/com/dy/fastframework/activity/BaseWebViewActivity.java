@@ -14,7 +14,7 @@ import yin.deng.superbase.activity.SuperBaseActivity;
 /**
  * 请设置hardwareAccelerated=true---->可播放视频
  */
-public abstract class BaseWebViewActivity extends SuperBaseActivity {
+public abstract class BaseWebViewActivity extends BaseActivity {
     public MyWebView base_webView;
     @Override
     public void onCreate(Bundle savedInstanceState) {

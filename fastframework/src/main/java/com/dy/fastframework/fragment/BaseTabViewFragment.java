@@ -11,7 +11,7 @@ import java.util.List;
 import yin.deng.superbase.fragment.BasePagerAdapter;
 import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
 
-public abstract class BaseTabViewFragment extends ViewPagerSuperBaseFragment {
+public abstract class BaseTabViewFragment extends BaseFragment {
     public RecyclerTabLayout recyclerTabLayout;
     public ViewPager viewpager;
     public List<Fragment> fgs;

@@ -34,7 +34,7 @@ import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
  * @param <V>  服务器返回数据（服务器返回的包含list的整体类）
  *  注意：init里面要初始化initRecycle()/initAdapter()-----最后在需要的地方调用loadDataAtFirst()请求数据
  */
-public abstract class BaseRecycleViewFragment<T,V> extends ViewPagerSuperBaseFragment implements OnRefreshListener,
+public abstract class BaseRecycleViewFragment<T,V> extends BaseFragment implements OnRefreshListener,
         OnLoadMoreListener, OnStatusChildClickListener {
     public List<T> mDatas=new ArrayList<>();
     public MyQuckAdapter<T> mAdapter;

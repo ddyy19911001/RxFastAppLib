@@ -30,7 +30,7 @@ import yin.deng.superbase.activity.SuperBaseActivity;
  * @param <V> 服务器返回数据（服务器返回的包含list的整体类）
  * 注意：init里面要初始化initRecycle()/initAdapter()-----最后在需要的地方调用loadDataAtFirst()请求数据
  */
-public abstract class BaseRecycleViewActivity<T,V> extends SuperBaseActivity implements
+public abstract class BaseRecycleViewActivity<T,V> extends BaseActivity implements
         OnRefreshListener, OnLoadMoreListener, OnStatusChildClickListener {
     public List<T> mDatas=new ArrayList<>();
     public MyQuckAdapter<T> mAdapter;
