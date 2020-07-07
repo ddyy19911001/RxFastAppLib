@@ -76,6 +76,9 @@ public class RecyclerTabLayout extends RecyclerView {
     private int mIndicatorLeftRightPadding;
     public boolean isDivideWidth=true;
     public static OnPageSelectedListener onPageSelectedListener;
+    private boolean isIndicatorRound;
+    private int mIndicatorCorner;
+    private float mIndicatorRoundOffset=0;
 
     public void setOnPageSelectedListener(OnPageSelectedListener onPageSelectedListener) {
         this.onPageSelectedListener = onPageSelectedListener;
@@ -93,6 +96,7 @@ public class RecyclerTabLayout extends RecyclerView {
         super(context, attrs, defStyle);
         setWillNotDraw(false);
         mIndicatorPaint = new Paint();
+        mIndicatorPaint.setAntiAlias(true);
         getAttributes(context, attrs, defStyle);
         mLinearLayoutManager = new LinearLayoutManager(getContext()) {
             @Override
@@ -111,10 +115,16 @@ public class RecyclerTabLayout extends RecyclerView {
                 defStyle, R.style.rtl_RecyclerTabLayout);
         setIndicatorColor(a.getColor(R.styleable
                 .rtl_RecyclerTabLayout_rtl_tabIndicatorColor, 0));
+        setIndicatorRound(a.getBoolean(R.styleable
+                .rtl_RecyclerTabLayout_rtl_isTabIndicatorRound, false));
         setIndicatorHeight(a.getDimensionPixelSize(R.styleable
                 .rtl_RecyclerTabLayout_rtl_tabIndicatorHeight, 0));
         setIndicatorLeftRightPadding(a.getDimensionPixelSize(R.styleable
                 .rtl_RecyclerTabLayout_rtl_tabIndicatorLeftRightPadding, 0));
+        setIndicatorCorner(a.getDimensionPixelSize(R.styleable
+                .rtl_RecyclerTabLayout_rtl_tabIndicatorCorner, 0));
+        setmIndicatorRoundOffset(a.getDimensionPixelSize(R.styleable
+                .rtl_RecyclerTabLayout_rtl_tabIndicatorRoundOffset, 0));
         mTabTextAppearance = a.getResourceId(R.styleable.rtl_RecyclerTabLayout_rtl_tabTextAppearance,
                 R.style.rtl_RecyclerTabLayout_Tab);
 
@@ -168,12 +178,24 @@ public class RecyclerTabLayout extends RecyclerView {
         mIndicatorPaint.setColor(color);
     }
 
+    public void setIndicatorRound(boolean isRound) {
+        isIndicatorRound=isRound;
+    }
+
     public void setIndicatorHeight(int indicatorHeight) {
         mIndicatorHeight = indicatorHeight;
     }
 
     public void setIndicatorLeftRightPadding(int indicatorHeight) {
         mIndicatorLeftRightPadding = indicatorHeight;
+    }
+
+    public void setIndicatorCorner(int indicatorCorner) {
+        mIndicatorCorner = indicatorCorner;
+    }
+
+    public void setmIndicatorRoundOffset(int indicatorRoundOffset) {
+        mIndicatorRoundOffset = indicatorRoundOffset;
     }
 
     public void setAutoSelectionMode(boolean autoSelect) {
@@ -372,6 +394,15 @@ public class RecyclerTabLayout extends RecyclerView {
         left=left+mIndicatorLeftRightPadding;
         right=right-mIndicatorLeftRightPadding;
         canvas.drawRect(left, top, right, bottom, mIndicatorPaint);
+        if(isIndicatorRound) {
+            float r = Math.abs((bottom - top) / 2);
+            float roundR=r;
+            if(mIndicatorCorner!=0){
+                roundR=r+mIndicatorCorner;
+            }
+            canvas.drawCircle( left+mIndicatorRoundOffset, roundR + top, roundR, mIndicatorPaint);
+            canvas.drawCircle( right-mIndicatorRoundOffset, roundR + top, roundR, mIndicatorPaint);
+        }
     }
 
     protected boolean isLayoutRtl() {
