@@ -212,7 +212,7 @@ public abstract class BaseRecycleViewFragment<T,V> extends BaseFragment implemen
      * @return
      */
     public boolean isNeedNotLoadImgOnScroll(){
-        return true;
+        return false;
     }
 
 

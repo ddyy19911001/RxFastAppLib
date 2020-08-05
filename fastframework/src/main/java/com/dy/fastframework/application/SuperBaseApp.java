@@ -15,14 +15,20 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.viewimpl.MyFooterView;
 import com.scwang.smartrefresh.layout.viewimpl.MyHeaderView;
+import com.vise.xsnow.common.ViseConfig;
 import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.config.HttpGlobalConfig;
+import com.vise.xsnow.http.exception.ApiException;
+import com.vise.xsnow.http.exception.IBaseRequestErroLitener;
 
+import yin.deng.normalutils.utils.LogUtils;
 import yin.deng.normalutils.utils.SharedPreferenceUtil;
 
 
 public abstract class SuperBaseApp extends Application {
     private static SharedPreferenceUtil util;
     public static SuperBaseApp app;
+    public static int requestWaitShowDialogTimeOut=8;//请求发出后几秒显示转圈等待
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,9 +38,28 @@ public abstract class SuperBaseApp extends Application {
         initDebugMode(!closeDebugLog());
         initImgLoadSetting();
         initRefreshHeadAndFooter();
+        initViseHttp();
+        util=new SharedPreferenceUtil(this, getApplicationInfo().packageName);
+    }
+
+    public static void setRequestWaitShowDialogTimeOut(int requestWaitShowDialogTimeOut) {
+        SuperBaseApp.requestWaitShowDialogTimeOut = requestWaitShowDialogTimeOut;
+    }
+
+    public void initViseHttp() {
         //初始化请求工具
         ViseHttp.init(this,setBaseUrl());
-        util=new SharedPreferenceUtil(this, getApplicationInfo().packageName);
+        ViseHttp.CONFIG().setNeedShowLoading(needShowLoadingWhenRequestLongTime());
+        ViseHttp.CONFIG().setTotalTime(requestWaitShowDialogTimeOut);
+    }
+
+
+    /**
+     * 是否需要显示loading的转圈在
+     * @return
+     */
+    public boolean needShowLoadingWhenRequestLongTime(){
+        return true;
     }
 
 

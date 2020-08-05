@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.dy.fastframework.R;
 import com.dy.fastframework.util.ActivityLoadUtil;
 import com.dy.fastframework.util.ImageAutoLoadScrollListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -15,6 +16,8 @@ import com.scwang.smartrefresh.layout.help.MyQuckAdapter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.base.MyCallBackInterface;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.config.HttpGlobalConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,13 +209,29 @@ public abstract class BaseRecycleViewActivity<T,V> extends BaseActivity implemen
         }
     }
 
+    @Override
+    public void onNotInitFirst() {
+        ViseHttp.CONFIG().setOnRequestWatingDialogListener(new HttpGlobalConfig.OnRequestWatingDialogListener() {
+            @Override
+            public void onTimeOverToShowLoading() {
+                showLoadingDialog(getResources().getString(R.string.loading), true);
+            }
+
+            @Override
+            public void onRequestOverLoadingNeedClose() {
+                closeDialog();
+            }
+        });
+        super.onNotInitFirst();
+    }
+
 
     /**
      * 是否在滑动过程中不加载图片
      * @return
      */
     public boolean isNeedNotLoadImgOnScroll(){
-        return true;
+        return false;
     }
 
 

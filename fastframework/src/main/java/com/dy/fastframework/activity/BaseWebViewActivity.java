@@ -7,7 +7,10 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import com.dy.fastframework.R;
 import com.dy.fastframework.web.MyWebView;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.config.HttpGlobalConfig;
 
 import yin.deng.superbase.activity.SuperBaseActivity;
 
@@ -26,6 +29,22 @@ public abstract class BaseWebViewActivity extends BaseActivity {
         base_webView.enableFullScrenVideo(this);//设置支持全屏播放
     }
 
+
+    @Override
+    public void onNotInitFirst() {
+        ViseHttp.CONFIG().setOnRequestWatingDialogListener(new HttpGlobalConfig.OnRequestWatingDialogListener() {
+            @Override
+            public void onTimeOverToShowLoading() {
+                showLoadingDialog(getResources().getString(R.string.loading), true);
+            }
+
+            @Override
+            public void onRequestOverLoadingNeedClose() {
+                closeDialog();
+            }
+        });
+        super.onNotInitFirst();
+    }
 
 
     public abstract MyWebView getBase_webView();

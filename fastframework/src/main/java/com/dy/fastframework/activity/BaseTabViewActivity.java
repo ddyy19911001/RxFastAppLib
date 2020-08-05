@@ -6,7 +6,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.dy.fastframework.R;
 import com.dy.fastframework.tablayout.RecyclerTabLayout;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.config.HttpGlobalConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,23 @@ public abstract class BaseTabViewActivity extends BaseActivity {
         viewpager.setAdapter(fragmentAdapter);
         recyclerTabLayout.setUpWithViewPager(viewpager);
         recyclerTabLayout.setOnPageSelectedListener(setOnPageSelectedListener());
+    }
+
+
+    @Override
+    public void onNotInitFirst() {
+        ViseHttp.CONFIG().setOnRequestWatingDialogListener(new HttpGlobalConfig.OnRequestWatingDialogListener() {
+            @Override
+            public void onTimeOverToShowLoading() {
+                showLoadingDialog(getResources().getString(R.string.loading), true);
+            }
+
+            @Override
+            public void onRequestOverLoadingNeedClose() {
+                closeDialog();
+            }
+        });
+        super.onNotInitFirst();
     }
 
 }

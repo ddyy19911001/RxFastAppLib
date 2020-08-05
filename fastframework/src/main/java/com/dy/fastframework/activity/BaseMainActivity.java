@@ -10,6 +10,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.dy.fastframework.R;
 import com.dy.fastframework.view.NoScrollViewPager;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.config.HttpGlobalConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +83,22 @@ public abstract class BaseMainActivity extends BaseActivity {
             ivLayoutParams.gravity = getRootItemViewBuilder().gravity;
             ivLayoutParams.weight = getRootItemViewBuilder().weightInDp;
         }
+    }
+
+    @Override
+    public void onNotInitFirst() {
+        ViseHttp.CONFIG().setOnRequestWatingDialogListener(new HttpGlobalConfig.OnRequestWatingDialogListener() {
+            @Override
+            public void onTimeOverToShowLoading() {
+                showLoadingDialog(getResources().getString(R.string.loading), true);
+            }
+
+            @Override
+            public void onRequestOverLoadingNeedClose() {
+                closeDialog();
+            }
+        });
+        super.onNotInitFirst();
     }
 
     /**

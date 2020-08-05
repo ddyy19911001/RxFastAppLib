@@ -72,7 +72,7 @@ public class UpdateManager {
             @Override
             public void onGranted() {
                 LogUtils.i("权限获取成功");
-                downLoadStart(updateInfo,activity,progressLogo);
+                downLoadStart(updateInfo,activity);
             }
 
             @Override
@@ -82,7 +82,7 @@ public class UpdateManager {
 
             @Override
             public void onDenied(List<String> deniedPermission) {
-                showNomalMsg(activity,"无法获取到应用读取/写入内部存储相关权限，下载失败！");
+                showNomalMsg(activity,activity.getResources().getString(R.string.no_read_write_permission));
             }
         });
     }
@@ -90,7 +90,7 @@ public class UpdateManager {
 
     public void showNomalMsg(Context context,String msg){
         final CommonMsgDialog msgDialog=new CommonMsgDialog(context);
-        msgDialog.getHolder().tvTitle.setText("系统提示");
+        msgDialog.getHolder().tvTitle.setText(context.getResources().getString(R.string.system_msg));
         msgDialog.showMsg(msg);
     }
 
@@ -124,10 +124,10 @@ public class UpdateManager {
      * @param updateInfo
      * @param activity
      */
-    public void downLoadStart(final UpdateInfo updateInfo, final SuperBaseActivity activity, final int appLogo) {
+    public void downLoadStart(final UpdateInfo updateInfo, final SuperBaseActivity activity) {
         String saveName=activity.getResources().getString(R.string.app_name)+"_"+updateInfo.getName()+".apk";
         apkPath=dirPath+saveName;
-        activity.showLoadingDialog("数据获取中...", false);
+        activity.showLoadingDialog(activity.getResources().getString(R.string.loading), false);
         PRDownloader.download(updateInfo.getUrl(),dirPath,
                 saveName)
         .build().setOnStartOrResumeListener(new OnStartOrResumeListener() {
@@ -137,7 +137,7 @@ public class UpdateManager {
                     onUpdateListener.onStartDown();
                 }
                 activity.closeDialog();
-                showProgressDialog(activity,updateInfo,appLogo);
+                showProgressDialog(activity,updateInfo);
             }
         }).setOnProgressListener(new OnProgressListener() {
             @Override
@@ -166,9 +166,9 @@ public class UpdateManager {
                     onUpdateListener.onFailed(error.getServerErrorMessage());
                 }
                 if(MyUtils.isEmpty(error.getServerErrorMessage())){
-                    activity.showTs("下载失败：未知错误");
+                    activity.showTs(activity.getResources().getString(R.string.down_erro)+activity.getResources().getString(R.string.unknown_erro));
                 }else {
-                    activity.showTs("下载失败:" + error.getServerErrorMessage());
+                    activity.showTs(activity.getResources().getString(R.string.down_erro) + error.getServerErrorMessage());
                 }
             }
         });
@@ -184,18 +184,18 @@ public class UpdateManager {
     public String progressTitle;
     public String backDownButtonText;
 
-    public void showProgressDialog(SuperBaseActivity activity, UpdateInfo updateInfo,int appLogo) {
+    public void showProgressDialog(SuperBaseActivity activity, UpdateInfo updateInfo) {
         if(progressDialog==null) {
             progressDialog = new CommonProgressDialog(activity);
             progressDialog.getHolder().llProgress.setVisibility(View.VISIBLE);
-            progressDialog.getHolder().tvTitle.setText(progressTitle==null?"发现新版本（v" + updateInfo.getName()+"）":progressTitle);
-            progressDialog.getHolder().tvContent.setText(progressContent==null?"正在更新，请耐心等待...":progressContent);
+            progressDialog.getHolder().tvTitle.setText(progressTitle==null?activity.getResources().getString(R.string.find_new_version)+"（v" + updateInfo.getName()+"）":progressTitle);
+            progressDialog.getHolder().tvContent.setText(progressContent==null?activity.getResources().getString(R.string.updating_please_wait):progressContent);
             progressDialog.setCancelable(false);// 能够返回
             progressDialog.setCanceledOnTouchOutside(false);// 点击外部返回
             progressDialog.getHolder().tvCancle.setVisibility(View.GONE);
             progressDialog.getHolder().tvMiddle.setVisibility(View.GONE);
             if(isEnableBackDownLoad) {
-                progressDialog.getHolder().tvSure.setText(backDownButtonText==null?"后台下载":backDownButtonText);
+                progressDialog.getHolder().tvSure.setText(backDownButtonText==null?activity.getResources().getString(R.string.update_background):backDownButtonText);
                 progressDialog.getHolder().tvSure.setOnClickListener(new NoDoubleClickListener() {
                     @Override
                     protected void onNoDoubleClick(View v) {

@@ -11,15 +11,13 @@ import com.dy.fastframework.R;
 public class MyImageLoadUtil {
     public static int mPlaceHolder;
     public static int mErroHolder;
-    public static Context mContext;
 
 
 
 
-    private static void checkInit(){
-        if(mContext==null){
-            throw new IllegalStateException("传入Context为空，请重新传入");
-        }
+    private static void checkInit(int placeHolder,int erroHolder){
+        mPlaceHolder = placeHolder;
+        mErroHolder = erroHolder;
     }
 
 
@@ -30,8 +28,20 @@ public class MyImageLoadUtil {
      * @param picUrl
      */
     public static void loadImage(Context context,ImageView view, String picUrl){
-        mContext=context;
-        checkInit();
+        checkInit(mPlaceHolder,mErroHolder);
+        if(mPlaceHolder!=0&&mErroHolder!=0) {
+            Glide.with(context).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+        }else if(mPlaceHolder==0&&mErroHolder==0){
+            Glide.with(context).load(picUrl).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+        }else if(mPlaceHolder==0&&mErroHolder!=0){
+            Glide.with(context).load(picUrl).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+        }else{
+            Glide.with(context).load(picUrl).placeholder(mPlaceHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+        }
+    }
+
+    public static void loadImage(Context mContext,ImageView view, int picUrl){
+        checkInit(mPlaceHolder,mErroHolder);
         if(mPlaceHolder!=0&&mErroHolder!=0) {
             Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
         }else if(mPlaceHolder==0&&mErroHolder==0){
@@ -43,23 +53,8 @@ public class MyImageLoadUtil {
         }
     }
 
-    public static void loadImage(Context context,ImageView view, int picUrl){
-        mContext=context;
-        checkInit();
-        if(mPlaceHolder!=0&&mErroHolder!=0) {
-            Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
-        }else if(mPlaceHolder==0&&mErroHolder==0){
-            Glide.with(mContext).load(picUrl).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
-        }else if(mPlaceHolder==0&&mErroHolder!=0){
-            Glide.with(mContext).load(picUrl).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
-        }else{
-            Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
-        }
-    }
-
-    public static void loadImageThumb(Context context,ImageView view, int picUrl){
-        mContext=context;
-        checkInit();
+    public static void loadImageThumb(Context mContext,ImageView view, int picUrl){
+        checkInit(mPlaceHolder,mErroHolder);
         if(mPlaceHolder!=0&&mErroHolder!=0) {
             Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(view.getWidth()).into(view);
         }else if(mPlaceHolder==0&&mErroHolder==0){
@@ -71,9 +66,8 @@ public class MyImageLoadUtil {
         }
     }
 
-    public static void loadImageThumb(Context context,ImageView view, String picUrl){
-        mContext=context;
-        checkInit();
+    public static void loadImageThumb(Context mContext,ImageView view, String picUrl){
+        checkInit(mPlaceHolder,mErroHolder);
         if(mPlaceHolder!=0&&mErroHolder!=0) {
             Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(view.getWidth()).into(view);
         }else if(mPlaceHolder==0&&mErroHolder==0){
@@ -85,13 +79,8 @@ public class MyImageLoadUtil {
         }
     }
 
-    public static void loadImageThumb(Context context,ImageView view, String picUrl, int placeholder){
-        mContext=context;
-        checkInit();
-        if(placeholder!=0){
-            mPlaceHolder=placeholder;
-            mErroHolder=placeholder;
-        }
+    public static void loadImageThumb(Context mContext,ImageView view, String picUrl, int placeholder){
+        checkInit(placeholder,placeholder);
         if(mPlaceHolder!=0&&mErroHolder!=0) {
             Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(view.getWidth()).into(view);
         }else if(mPlaceHolder==0&&mErroHolder==0){
@@ -103,13 +92,8 @@ public class MyImageLoadUtil {
         }
     }
 
-    public static void loadImageThumb(Context context,ImageView view, String picUrl, int placeholder, int erroHolder){
-        mContext=context;
-        checkInit();
-        if(placeholder!=0){
-            mPlaceHolder=placeholder;
-            mErroHolder=placeholder;
-        }
+    public static void loadImageThumb(Context mContext,ImageView view, String picUrl, int placeholder, int erroHolder){
+        checkInit(placeholder,erroHolder);
         if(erroHolder!=0){
             mErroHolder=erroHolder;
         }
@@ -125,25 +109,23 @@ public class MyImageLoadUtil {
     }
 
 
-    public static void loadImage(Context context,ImageView view, int picUrl, int placeHolder, int erroHolder){
-        mContext=context;
-        checkInit();
-        if(placeHolder!=0&&erroHolder!=0) {
-            Glide.with(mContext).load(picUrl).placeholder(placeHolder).error(erroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
-        }else if(placeHolder==0&&erroHolder==0){
+    public static void loadImage(Context mContext,ImageView view, int picUrl, int placeHolder, int erroHolder){
+        checkInit(placeHolder,erroHolder);
+        if(mPlaceHolder!=0&&mErroHolder!=0) {
+            Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+        }else if(mPlaceHolder==0&&mErroHolder==0){
             Glide.with(mContext).load(picUrl).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
-        }else if(placeHolder==0&&erroHolder!=0){
-            Glide.with(mContext).load(picUrl).error(erroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+        }else if(mPlaceHolder==0&&mErroHolder!=0){
+            Glide.with(mContext).load(picUrl).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
         }else{
-            Glide.with(mContext).load(picUrl).placeholder(placeHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+            Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
         }
     }
 
-    public static void loadImage(Context context,ImageView view, int picUrl, int placeHolder){
-        mContext=context;
-        checkInit();
-        if(placeHolder!=0) {
-            Glide.with(mContext).load(picUrl).placeholder(placeHolder).error(placeHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
+    public static void loadImage(Context mContext,ImageView view, int picUrl, int placeHolder){
+        checkInit(placeHolder,placeHolder);
+        if(mPlaceHolder!=0) {
+            Glide.with(mContext).load(picUrl).placeholder(mPlaceHolder).error(mErroHolder).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
         }else{
             Glide.with(mContext).load(picUrl).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(view);
         }

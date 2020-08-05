@@ -20,10 +20,11 @@ import yin.deng.normalutils.view.MsgDialog;
 
 public class CommonMsgDialog extends Dialog {
     public ViewHolder holder;
-
+    public Context context;
     public CommonMsgDialog(Context context) {
         super(context, R.style.ActionSheetDialogStyle);
         View view = View.inflate(context, R.layout.progress_dialog_normal, null);
+        this.context=context;
         setContentView(view);
         //获取当前Activity所在的窗体
         Window dialogWindow = getWindow();
@@ -37,7 +38,7 @@ public class CommonMsgDialog extends Dialog {
         //       将属性设置给窗体
         dialogWindow.setAttributes(lp);
         holder = new ViewHolder(view);
-        holder.tvTitle.setText("系统消息");
+        holder.tvTitle.setText(context.getResources().getString(R.string.system_msg));
         holder.llProgress.setVisibility(View.GONE);
         holder.tvCancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,16 @@ public class CommonMsgDialog extends Dialog {
 
     public void showMsg(String msg, View.OnClickListener onSureClick){
         holder.tvContent.setText(msg);
+        holder.tvMiddle.setVisibility(View.GONE);
         holder.tvSure.setOnClickListener(onSureClick);
+        show();
+    }
+
+    public void showMsg(String msg,String buttonText, View.OnClickListener onSureClick){
+        holder.tvContent.setText(msg);
+        holder.tvMiddle.setVisibility(View.GONE);
+        holder.tvSure.setOnClickListener(onSureClick);
+        holder.tvSure.setText(buttonText);
         show();
     }
 
@@ -69,9 +79,22 @@ public class CommonMsgDialog extends Dialog {
         holder.tvSure.setOnClickListener(onSureClick);
         holder.tvCancle.setVisibility(View.VISIBLE);
         holder.tvMiddle.setVisibility(View.VISIBLE);
-        holder.tvCancle.setOnClickListener(onSureClick);
-        holder.tvCancle.setText("取消");
-        holder.tvSure.setText("确定");
+        holder.tvCancle.setOnClickListener(onCancleClick);
+        holder.tvCancle.setText(context.getResources().getString(R.string.cancel));
+        holder.tvSure.setText(context.getResources().getString(R.string.sure));
+        show();
+    }
+
+    public void showMsgWithCancle(String msg,String sureText,String cancelText, View.OnClickListener onSureClick,View.OnClickListener onCancleClick){
+        holder.tvContent.setText(msg);
+        holder.tvSure.setOnClickListener(onSureClick);
+        holder.tvCancle.setOnClickListener(onCancleClick);
+        holder.tvCancle.setVisibility(View.VISIBLE);
+        holder.tvMiddle.setVisibility(View.VISIBLE);
+        holder.tvSure.setText(sureText);
+        holder.tvCancle.setText(cancelText);
+        holder.tvCancle.setText(context.getResources().getString(R.string.cancel));
+        holder.tvSure.setText(context.getResources().getString(R.string.sure));
         show();
     }
 
